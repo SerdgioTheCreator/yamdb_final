@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: serdgiothecreator/api_yamdb-web:latest
+          tags: serdgiothecreator/api_yamdb-web
 
   deploy:
     runs-on: ubuntu-latest
