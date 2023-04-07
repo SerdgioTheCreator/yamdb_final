@@ -2,6 +2,7 @@
 
 ## Используемые технологии
 
+[![yamdb_workflow](https://github.com/SerdgioTheCreator/yamdb_final/actions/workflows/yamdb_final.yml/badge.svg?branch=master)](https://github.com/SerdgioTheCreator/yamdb_final/actions/workflows/yamdb_final.yml)
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Nginx](https://img.shields.io/badge/-NGINX-464646?style=flat-square&logo=NGINX)](https://nginx.org/ru/)
 [![gunicorn](https://img.shields.io/badge/-gunicorn-464646?style=flat-square&logo=gunicorn)](https://gunicorn.org/)
