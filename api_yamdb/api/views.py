@@ -1,7 +1,4 @@
 """Views module."""
-from api_yamdb.settings import (ERR_EMAIL_EXISTS,
-                                ERR_USERNAME_EXISTS
-                                )
 from django.db import IntegrityError
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
@@ -16,10 +13,11 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from reviews.models import Category, Genre, Review, Title
 from users.models import User
 
+from api_yamdb.settings import ERR_EMAIL_EXISTS, ERR_USERNAME_EXISTS
+
 from .filter import TitleFilter
-from .permissions import (AdminOrReadOnly,
-                          AdminOrModeratorOrAuthor,
-                          AdminOrMyselfOnly)
+from .permissions import (AdminOrModeratorOrAuthor, AdminOrMyselfOnly,
+                          AdminOrReadOnly)
 from .serializers import (CategoriesSerializer, CommentSerializer,
                           GenreSerializer, GetTokenSerializer,
                           RegisterSerializer, ReviewSerializer,
