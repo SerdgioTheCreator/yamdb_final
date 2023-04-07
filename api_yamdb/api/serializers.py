@@ -1,17 +1,17 @@
 """Serializers module."""
+from api_yamdb.settings import (AUTH_USERNAME_MAXLENGTH,
+                                AUTH_EMAIL_MAXLENGTH,
+                                AUTH_CONF_CODE_MAXLENGTH)
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from rest_framework.exceptions import NotFound
 from rest_framework.validators import UniqueTogetherValidator
-
-from api_yamdb.settings import (AUTH_USERNAME_MAXLENGTH,
-                                AUTH_EMAIL_MAXLENGTH,
-                                AUTH_CONF_CODE_MAXLENGTH)
-from .validators import validate_username, validate_year
 from reviews.models import Category, Comment, Genre, Review, Title
 from users.models import User
+
+from .validators import validate_username, validate_year
 
 
 class CategoriesSerializer(serializers.ModelSerializer):

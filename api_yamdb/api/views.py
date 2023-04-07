@@ -1,4 +1,7 @@
 """Views module."""
+from api_yamdb.settings import (ERR_EMAIL_EXISTS,
+                                ERR_USERNAME_EXISTS
+                                )
 from django.db import IntegrityError
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
@@ -10,6 +13,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from reviews.models import Category, Genre, Review, Title
+from users.models import User
 
 from .filter import TitleFilter
 from .permissions import (AdminOrReadOnly,
@@ -20,10 +25,6 @@ from .serializers import (CategoriesSerializer, CommentSerializer,
                           RegisterSerializer, ReviewSerializer,
                           TitleSerializer, UserSerializer)
 from .utils import create_and_send_code
-from api_yamdb.settings import (ERR_USERNAME_EXISTS,
-                                ERR_EMAIL_EXISTS)
-from reviews.models import Category, Genre, Review, Title
-from users.models import User
 
 
 class CreateDestroyListViewSet(
