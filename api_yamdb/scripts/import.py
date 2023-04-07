@@ -1,3 +1,4 @@
+"""Import module."""
 from reviews.models import Review, Genre, Category, Title, Comment
 import csv
 
@@ -5,6 +6,7 @@ from users.models import User
 
 
 def genre_import():
+    """Genre_import func."""
     with open('static/data/genre.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)  # Advance past the header
@@ -18,6 +20,7 @@ def genre_import():
 
 
 def category_import():
+    """category_import func."""
     with open('static/data/category.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)  # Advance past the header
@@ -31,6 +34,7 @@ def category_import():
 
 
 def title_import():
+    """Title import."""
     with open('static/data/titles.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)  # Advance past the header
@@ -47,6 +51,7 @@ def title_import():
 
 
 def title_genre_import():
+    """title_genre_import func."""
     with open('static/data/genre_title.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)  # Advance past the header
@@ -59,6 +64,7 @@ def title_genre_import():
 
 
 def review_import():
+    """Review_import func."""
     with open('static/data/review.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)  # Advance past the header
@@ -77,6 +83,7 @@ def review_import():
 
 
 def user_import():
+    """User_import func."""
     with open('static/data/users.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)  # Advance past the header
@@ -95,6 +102,7 @@ def user_import():
 
 
 def comments_import():
+    """Comments_import func."""
     with open('static/data/comments.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
         next(reader)  # Advance past the header
@@ -112,6 +120,7 @@ def comments_import():
 
 
 def run():
+    """Run func."""
     user_import()
     genre_import()
     category_import()

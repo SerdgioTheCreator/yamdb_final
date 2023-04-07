@@ -1,3 +1,4 @@
+"""Settings of project."""
 import os
 from datetime import timedelta
 

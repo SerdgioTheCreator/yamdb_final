@@ -1,9 +1,11 @@
+"""Validators module."""
 import re
 from datetime import datetime
 from django.core.exceptions import ValidationError
 
 
 def validate_username(value):
+    """Validate_username func."""
     regex = re.compile(r'^[\w.@+-]+\Z')
     regex_matches = re.search(regex, str(value))
     if not regex_matches:
@@ -20,6 +22,7 @@ def validate_username(value):
 
 
 def validate_year(value):
+    """Validate year func."""
     year = datetime.now().year
     if not (0 < value <= year):
         raise ValidationError("Проверьте правильность ввода года.")

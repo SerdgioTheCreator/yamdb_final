@@ -1,3 +1,4 @@
+"""Views module."""
 from django.db import IntegrityError
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
@@ -31,6 +32,8 @@ class CreateDestroyListViewSet(
     mixins.ListModelMixin,
     viewsets.GenericViewSet
 ):
+    """CreateDestroyListViewSet method."""
+
     permission_classes = (AdminOrReadOnly,)
     filter_backends = (SearchFilter,)
     search_fields = ('slug', 'name')
@@ -38,6 +41,8 @@ class CreateDestroyListViewSet(
 
 
 class TitleListView(viewsets.ModelViewSet):
+    """TitleListView method."""
+
     queryset = Title.objects.annotate(
         rating=Avg('reviews__score')).all()
     serializer_class = TitleSerializer
@@ -48,25 +53,33 @@ class TitleListView(viewsets.ModelViewSet):
 
 
 class GenreListView(CreateDestroyListViewSet):
+    """GenreListView method."""
+
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
 
 
 class CategoriesListView(CreateDestroyListViewSet):
+    """CategoriesListView method."""
+
     queryset = Category.objects.all()
     serializer_class = CategoriesSerializer
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
+    """ReviewViewSet method."""
+
     serializer_class = ReviewSerializer
     permission_classes = (AdminOrModeratorOrAuthor,)
 
     def get_queryset(self):
+        """Get_queryset func."""
         return get_object_or_404(
             Title, pk=self.kwargs.get('title_id')
         ).reviews.all()
 
     def perform_create(self, serializer):
+        """perform_create func."""
         serializer.save(
             author=self.request.user,
             title=get_object_or_404(
@@ -76,15 +89,19 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """CommentViewSet method."""
+
     serializer_class = CommentSerializer
     permission_classes = (AdminOrModeratorOrAuthor,)
 
     def get_queryset(self):
+        """Get_queryset func."""
         return get_object_or_404(
             Review, pk=self.kwargs.get('review_id')
         ).comments.all()
 
     def perform_create(self, serializer):
+        """Perform_create func."""
         serializer.save(
             author=self.request.user,
             review=get_object_or_404(
@@ -108,6 +125,7 @@ class UserViewSet(viewsets.ModelViewSet):
         url_name='me'
     )
     def retrieve_patch_me(self, request):
+        """Retrieve_patch_me func."""
         if request.method == 'PATCH':
             serializer = UserSerializer(
                 request.user, data=request.data, partial=True
@@ -123,6 +141,7 @@ class RegisterUserAPIView(APIView):
     """Регистрация пользователя и получение кода подтверждения."""
 
     def post(self, request):
+        """Post func."""
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         try:
@@ -147,6 +166,7 @@ class ObtainTokenView(APIView):
     """Получение токена авторизации."""
 
     def post(self, request):
+        """Post func."""
         serializer = GetTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         username = serializer.validated_data.get('username')

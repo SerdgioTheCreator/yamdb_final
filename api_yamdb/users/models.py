@@ -1,3 +1,4 @@
+"""Models."""
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -8,6 +9,8 @@ from api_yamdb.settings import (AUTH_USERNAME_MAXLENGTH,
 
 
 class User(AbstractUser):
+    """User class."""
+
     ROLE_USER = 'user'
     ROLE_MODERATOR = 'moderator'
     ROLE_ADMIN = 'admin'
@@ -49,16 +52,20 @@ class User(AbstractUser):
     )
 
     class Meta:
+        """Class Meta."""
+
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
         ordering = ('-id',)
 
     @property
     def is_moderator(self):
+        """Is_moderator method."""
         return self.role == self.ROLE_MODERATOR
 
     @property
     def is_admin(self):
+        """Is_admin method."""
         return (
             self.role == self.ROLE_ADMIN
             or self.is_superuser
@@ -66,4 +73,5 @@ class User(AbstractUser):
         )
 
     def __str__(self):
+        """Magic method."""
         return self.username

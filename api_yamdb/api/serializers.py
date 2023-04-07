@@ -1,3 +1,4 @@
+"""Serializers module."""
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.shortcuts import get_object_or_404
@@ -14,22 +15,30 @@ from users.models import User
 
 
 class CategoriesSerializer(serializers.ModelSerializer):
+    """CategoriesSerializer method."""
 
     class Meta:
+        """Meta class."""
+
         fields = ('name', 'slug')
         model = Category
         extra_kwargs = {'slug': {'required': True}}
 
 
 class GenreSerializer(serializers.ModelSerializer):
+    """GenreSerializer method."""
 
     class Meta:
+        """Meta class."""
+
         fields = ('name', 'slug')
         model = Genre
         extra_kwargs = {'slug': {'required': True}}
 
 
 class TitleSerializer(serializers.ModelSerializer):
+    """TitleSerializer method."""
+
     category = serializers.SlugRelatedField(
         slug_field='slug',
         queryset=Category.objects.all()
@@ -44,10 +53,13 @@ class TitleSerializer(serializers.ModelSerializer):
     year = serializers.IntegerField(validators=[validate_year])
 
     class Meta:
+        """Meta class."""
+
         fields = '__all__'
         model = Title
 
     def to_representation(self, instance):
+        """To_representation func."""
         response = super().to_representation(instance)
         response['genre'] = GenreSerializer(instance.genre, many=True).data
         response['category'] = CategoriesSerializer(instance.category).data
@@ -55,9 +67,12 @@ class TitleSerializer(serializers.ModelSerializer):
 
 
 class TitleDefault:
+    """TitleDefault method."""
+
     requires_context = True
 
     def __call__(self, data):
+        """Call func."""
         return get_object_or_404(
             Title,
             id=data.context['view'].kwargs.get('title_id')
@@ -65,6 +80,8 @@ class TitleDefault:
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    """ReviewSerializer method."""
+
     author = serializers.SlugRelatedField(
         read_only=True,
         slug_field='username',
@@ -76,6 +93,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
+        """Meta class."""
+
         fields = '__all__'
         model = Review
         validators = [
@@ -87,23 +106,32 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    """CommentSerializer method."""
+
     author = serializers.SlugRelatedField(
         read_only=True,
         slug_field='username'
     )
 
     class Meta:
+        """Meta class."""
+
         model = Comment
         fields = '__all__'
         read_only_fields = ('review', )
 
 
 class ValidateUsernameMixin:
+    """ValidateUsernameMixin method."""
+
     def validate_username(self, value):
+        """validate_username func."""
         return validate_username(value)
 
 
 class AuthSerializer(serializers.Serializer, ValidateUsernameMixin):
+    """AuthSerializer method."""
+
     username = serializers.CharField(
         max_length=AUTH_USERNAME_MAXLENGTH,
         required=True
@@ -111,23 +139,30 @@ class AuthSerializer(serializers.Serializer, ValidateUsernameMixin):
 
 
 class RegisterSerializer(AuthSerializer):
+    """RegisterSerializer method."""
+
     email = serializers.EmailField(
         max_length=AUTH_EMAIL_MAXLENGTH,
         required=True
     )
 
     class Meta:
+        """Meta class."""
+
         model = User
         fields = ('username', 'email')
 
 
 class GetTokenSerializer(AuthSerializer):
+    """GetTokenSerializer method."""
+
     confirmation_code = serializers.CharField(
         max_length=AUTH_CONF_CODE_MAXLENGTH,
         required=True
     )
 
     def validate(self, data):
+        """Validate func."""
         try:
             username = data.get('username')
             user = User.objects.get(username=username)
@@ -142,7 +177,11 @@ class GetTokenSerializer(AuthSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """UserSerializer method."""
+
     class Meta:
+        """Meta class."""
+
         model = User
         fields = ('username', 'email', 'first_name',
                   'last_name', 'bio', 'role')

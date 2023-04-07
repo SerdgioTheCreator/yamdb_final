@@ -1,11 +1,14 @@
+"""Models module."""
 from django.conf import settings
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from api.validators import validate_year
 
 
 class AbstractCategoryGenreModel(models.Model):
+    """AbstractCategoryGenreModel method."""
+
     name = models.CharField(
         max_length=settings.NAME_LENGTH,
         unique=True,
@@ -17,14 +20,19 @@ class AbstractCategoryGenreModel(models.Model):
     )
 
     class Meta:
+        """Meta class."""
+
         abstract = True
         ordering = ('-id', 'name',)
 
     def __str__(self):
+        """Str method."""
         return self.name
 
 
 class AbstractReviewCommentModel(models.Model):
+    """AbstractReviewCommentModel method."""
+
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -37,28 +45,39 @@ class AbstractReviewCommentModel(models.Model):
     )
 
     class Meta:
+        """Meta class."""
+
         abstract = True
         ordering = ('-id', '-pub_date', )
 
     def __str__(self):
+        """Str method."""
         return self.text[:settings.TEXT_CUTTER_30]
 
 
 class Category(AbstractCategoryGenreModel):
+    """Category method."""
 
     class Meta(AbstractCategoryGenreModel.Meta):
+        """Meta class."""
+
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
 
 class Genre(AbstractCategoryGenreModel):
+    """Genre method."""
 
     class Meta(AbstractCategoryGenreModel.Meta):
+        """Meta class."""
+
         verbose_name = 'Жанр'
         verbose_name_plural = 'Жанры'
 
 
 class Title(models.Model):
+    """Title method."""
+
     name = models.CharField(
         max_length=settings.TITLE_NAME_LENGTH,
         verbose_name='Название произведения'
@@ -87,15 +106,20 @@ class Title(models.Model):
     )
 
     class Meta:
+        """Meta class."""
+
         verbose_name = 'Произведение'
         verbose_name_plural = 'Произведения'
         ordering = ('-name',)
 
     def __str__(self):
+        """Str method."""
         return self.name[:settings.TEXT_CUTTER_30]
 
 
 class TitleGenre(models.Model):
+    """TitleGenre method."""
+
     title = models.ForeignKey(
         Title,
         on_delete=models.CASCADE,
@@ -108,11 +132,15 @@ class TitleGenre(models.Model):
     )
 
     class Meta:
+        """Meta class."""
+
         verbose_name = 'Жанр произведения'
         verbose_name_plural = 'Жанры произведения'
 
 
 class Review(AbstractReviewCommentModel):
+    """Review method."""
+
     title = models.ForeignKey(
         Title,
         on_delete=models.CASCADE,
@@ -136,6 +164,8 @@ class Review(AbstractReviewCommentModel):
     )
 
     class Meta(AbstractReviewCommentModel.Meta):
+        """Meta class."""
+
         default_related_name = 'reviews'
         verbose_name = 'отзыв'
         verbose_name_plural = 'отзывы'
@@ -148,6 +178,8 @@ class Review(AbstractReviewCommentModel):
 
 
 class Comment(AbstractReviewCommentModel):
+    """Comment method."""
+
     review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
@@ -155,6 +187,8 @@ class Comment(AbstractReviewCommentModel):
     )
 
     class Meta(AbstractReviewCommentModel.Meta):
+        """Meta class."""
+
         default_related_name = 'comments'
         verbose_name = 'комментарий'
         verbose_name_plural = 'комментарии'
