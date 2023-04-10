@@ -61,7 +61,7 @@ jobs:
           script: |
             sudo docker-compose stop
             sudo docker-compose rm web
-            sudo docker pull serdgiothecreator/api_yamdb-web:latest
+            sudo docker pull serdgiothecreator/api_yamdb-web
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
