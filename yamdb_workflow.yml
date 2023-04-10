@@ -45,7 +45,7 @@ jobs:
           push: true
           context: ./api_yamdb/
           file: ./api_yamdb/Dockerfile
-          tags: serdgiothecreator/api_yamdb-web:latest
+          tags: serdgiothecreator/api_yamdb:latest
 
   deploy:
     runs-on: ubuntu-latest
