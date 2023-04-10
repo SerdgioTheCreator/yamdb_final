@@ -31,6 +31,9 @@
 
 ```
 DB_ENGINE=django.db.backends.postgresql
+ALLOWED_HOSTS=localhost
+DEBUG=False
+DB=False #True для sqlite3
 DB_NAME=postgres
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=<pass>
