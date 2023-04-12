@@ -63,7 +63,7 @@ chmod +x /usr/local/bin/docker-compose
 
 ```
 scp docker-compose.yaml <username>@<host>:/home/<username>/docker-compose.yaml
-scp nginx.conf <username>@<host>:/home/<username>/nginx/default.conf
+scp default.conf <username>@<host>:/home/<username>/nginx/default.conf
 ```
 
 - Создать .env файл по предлагаемому выше шаблону. Обязательно изменить 
