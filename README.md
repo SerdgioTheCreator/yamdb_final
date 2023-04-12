@@ -46,10 +46,58 @@ DB_PORT=5432
 ```
 git clone https://github.com/SerdgioTheCreator/yamdb_final
 ```
+- Выполнить вход на удаленный сервер
+- Установить docker на сервер:
+
+```
+apt install docker.io 
+```
+- Установить docker-compose на сервер:
+
+```
+curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+- Локально отредактировать файл infra/nginx/default.conf, обязательно в строке server_name вписать IP-адрес сервера
+- Скопировать файлы docker-compose.yaml и default.conf из директории infra на сервер:
+
+```
+scp docker-compose.yaml <username>@<host>:/home/<username>/docker-compose.yaml
+scp nginx.conf <username>@<host>:/home/<username>/nginx/default.conf
+```
+
 - Создать .env файл по предлагаемому выше шаблону. Обязательно изменить 
 значения POSTGRES_USER и POSTGRES_PASSWORD
-- Собрать и запустить контейнеры
+- Для работы с Workflow добавить в Secrets GitHub переменные окружения для работы:
+```
+DB_ENGINE=django.db.backends.postgresql
+ALLOWED_HOSTS=<IP адрес сервера>
+DEBUG=False
+DB=False #True для sqlite3
+DB_NAME=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=<pass>
+DB_HOST=db 
+DB_PORT=5432 
 
+DOCKER_USERNAME=<имя пользователя>    
+DOCKER_PASSWORD=<пароль от DockerHub>
+    
+SECRET_KEY=<секретный ключ проекта django>
+USER=<username для подключения к серверу>
+HOST=<IP адрес сервера>
+PASSPHRASE=<пароль для сервера, если он установлен>
+SSH_KEY=<ваш SSH ключ (для получения команда: cat ~/.ssh/id_rsa)>
+TELEGRAM_TO=<ID чата, в который придет сообщение>
+TELEGRAM_TOKEN=<токен вашего бота>
+```
+Workflow состоит из четырёх шагов:
+1. Проверка кода на соответствие PEP8 
+2. Сборка и публикация образа бекенда на DockerHub. 
+3. Автоматический деплой на удаленный сервер. 
+4. Отправка уведомления в телеграм-чат.
+
+- собрать и запустить контейнеры на сервере:
 ```
 docker-compose up -d --build
 ```
