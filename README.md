@@ -88,7 +88,7 @@ docker-compose exec web python manage.py dumpdata > fixtures.json
 http://localhost
 ```
 
-- Ссылка на развернутый в облаке проект
+- Ссылка на развернутый в облаке проект 
 
 ```
 http://158.160.9.241/
